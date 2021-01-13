@@ -4,7 +4,7 @@
 (tool-bar-mode -1)   ;; Disable the toolbar
 (tooltip-mode -1)    ;; Disable tooltips
 (set-fringe-mode 10) ;: Give some breathing room
-
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 (menu-bar-mode -1)   ;; Disable the menu bar
 
 ;; Colocando numeros de linea
@@ -24,9 +24,9 @@
 
 ;; Global set keys
 ;; Make ESC quit prompts
-;; (global-set-key (kbd "<scape>") 'keyboard-escape-quit)
+;;(global-set-key (kbd "<scape>") 'keyboard-escape-quit)
 ;; switch buffer auto
-;; (global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
+(global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
 ;; (define-key emacs-lisp-mode-map (kbd "C-x M-t") 'counsel-load-theme)
 
 ;; Initialize package sources
@@ -171,3 +171,16 @@
 (rune/leader-keys
   "ts" '(hydra-text-scale/body :which-key "scale-text"))
 
+;; projectile
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (setq projectile-project-search-path '("~/proyectos/"))
+  (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-completion-system 'ivy))
+
+
+;; install ripgrep to search C-c p s r

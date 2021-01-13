@@ -22,7 +22,6 @@
 ;; set up the visible bell
 ;; (setq visible-bell t)
 
-(load-theme 'doom-molokai)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<scape>") 'keyboard-escape-quit)
@@ -64,11 +63,15 @@
   :config
   (ivy-mode 1))
 
+;; M-x all-the-icons-install-fonts
+(use-package all-the-icons)
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
-(use-package doom-themes)
+(use-package doom-themes
+  :init (load-theme 'doom-molokai t))
+
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -109,9 +112,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" default))
- '(package-selected-packages
-   '(doom-themes which-key use-package rainbow-delimiters ivy-rich helpful doom-modeline counsel command-log-mode)))
+   '("be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" default)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

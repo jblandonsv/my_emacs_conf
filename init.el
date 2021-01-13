@@ -22,7 +22,7 @@
 ;; set up the visible bell
 ;; (setq visible-bell t)
 
-(load-theme 'wombat)
+(load-theme 'doom-molokai)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<scape>") 'keyboard-escape-quit)
@@ -68,6 +68,7 @@
   :ensure t
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
+(use-package doom-themes)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -92,3 +93,28 @@
 (use-package ivy-rich
   :init (ivy-rich-mode 1))
 
+;; Helpful
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describre-variable)
+  ([remap describe-functionkey] . helpful-key))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" default))
+ '(package-selected-packages
+   '(doom-themes which-key use-package rainbow-delimiters ivy-rich helpful doom-modeline counsel command-log-mode)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

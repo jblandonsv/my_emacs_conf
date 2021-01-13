@@ -1,6 +1,5 @@
 ;; Quitando el mensaje por defecto en la pantalla de inicio y los menus
 (setq inhibit-startup-message t)
-
 (scroll-bar-mode -1) ;; Disable visible scrollbar
 (tool-bar-mode -1)   ;; Disable the toolbar
 (tooltip-mode -1)    ;; Disable tooltips
@@ -8,10 +7,13 @@
 
 (menu-bar-mode -1)   ;; Disable the menu bar
 
-;; set up the visible bell
-(setq visible-bell t)
+;; Colocando numeros de linea
+(global-linum-mode)
 
-(load-theme 'tango-dark)
+;; set up the visible bell
+;; (setq visible-bell t)
+
+(load-theme 'wombat)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<scape>") 'keyboard-escape-quit)
@@ -52,3 +54,8 @@
 	 ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1))
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))

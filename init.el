@@ -181,7 +181,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-project-search-path '("~/proyectosFiverr/"))
+  (setq projectile-project-search-path '("~/proyectos/"))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-completion-system 'ivy))
 
@@ -233,6 +233,13 @@
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
 
+(setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+
+(setq org-agenda-files
+	'("~/proyectos/pruebaemacs/Tasks.org"))
+
 (use-package org
   :hook (org-mode . efs/org-mode-setup)
   :config
@@ -247,3 +254,5 @@
 (use-package visual-fill-column
   :hook (org-mode . efs/org-mode-visual-fill))
 
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))

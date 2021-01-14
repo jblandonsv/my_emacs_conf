@@ -181,7 +181,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-project-search-path '("~/proyectos/"))
+  (setq projectile-project-search-path '("~/proyectosFiverr/"))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-completion-system 'ivy))
 
@@ -340,3 +340,8 @@
   :hook (typescript-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2))
+
+;; vue LSP - Mode
+;; (use-package vue-mode
+;;  :mode "\\.vue\\'"
+;;  :hook (vue-mode . lsp-deferred))

@@ -32,7 +32,10 @@
 ;; Initialize package sources
 (require 'package)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
 (package-initialize)
 
 (unless package-archive-contents
@@ -107,7 +110,7 @@
   :bind
   ([remap describe-function] . counsel-describe-function)
   ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describre-variable)
+  ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-functionkey] . helpful-key))
 
 (use-package general
@@ -178,7 +181,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-project-search-path '("~/proyectos/"))
+  (setq projectile-project-search-path '("~/proyectosFiverr/"))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-completion-system 'ivy))
 
@@ -194,4 +197,6 @@
 (use-package evil-magit
   :after magit)
 
-;; solamente es un test de magit
+;; (use-package forge)
+
+(use-package org)

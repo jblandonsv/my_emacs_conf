@@ -4,7 +4,7 @@
 (tool-bar-mode -1)   ;; Disable the toolbar
 (tooltip-mode -1)    ;; Disable tooltips
 (set-fringe-mode 10) ;: Give some breathing room
-
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 (menu-bar-mode -1)   ;; Disable the menu bar
 
 ;; Colocando numeros de linea
@@ -22,9 +22,12 @@
 ;; set up the visible bell
 ;; (setq visible-bell t)
 
-
+;; Global set keys
 ;; Make ESC quit prompts
-(global-set-key (kbd "<scape>") 'keyboard-escape-quit)
+;;(global-set-key (kbd "<scape>") 'keyboard-escape-quit)
+;; switch buffer auto
+(global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
+;; (define-key emacs-lisp-mode-map (kbd "C-x M-t") 'counsel-load-theme)
 
 ;; Initialize package sources
 (require 'package)
@@ -106,16 +109,89 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describre-variable)
   ([remap describe-functionkey] . helpful-key))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" default)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(use-package general
+  :config
+  (general-create-definer rune/leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (rune/leader-keys
+   "t" '(:ignore t: which-key "toggles")
+   "tt" '(counsel-load-theme :which-key "choose theme")))
+
+;; Evil (vi, vim)
+
+  (defun rune/evil-hook ()
+    (dolist (mode '(custom-mode
+		    eshell-mode
+		    git-rebase-mode
+		    erc-mode
+		    circe-server-mode
+		    circe-chat-mode
+		    circe-query-mode
+		    sauron-mode
+		    term-mode))
+      (add-to-list 'evil-emacs-state-modes mode)))
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  :hook (evil-mode . rune/evil-hook)
+  :config
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+  ;; use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(evil-mode 1)
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
+(use-package hydra)
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "finished" :exit t))
+
+(rune/leader-keys
+  "ts" '(hydra-text-scale/body :which-key "scale-text"))
+
+;; projectile
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (setq projectile-project-search-path '("~/proyectos/"))
+  (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-completion-system 'ivy))
+
+
+;; install ripgrep to search C-c p s r
+
+;; MAGIT
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+(use-package evil-magit
+  :after magit)
+
+;; solamente es un test de magit

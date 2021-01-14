@@ -324,3 +324,19 @@
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
+
+
+;; LSP MODE !
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+;; Typescript LSP - Mode
+ (use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))

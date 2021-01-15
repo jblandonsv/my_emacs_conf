@@ -16,6 +16,7 @@
 ;; Disable line numbers for some modes
 (dolist (mode '(org-mode-hook
 		term-mode-hook
+		treemacs-mode-hook
 		eshell-mode-hook))
   (add-hook mode (lambda ()(display-line-numbers-mode 0))))
 
@@ -238,8 +239,8 @@
   (setq org-log-into-drawer t)
 
 (setq org-agenda-files
-	'("~/proyectos/pruebaemacs/Tasks.org"))
-
+      '("~/proyectos/pruebaemacs/Tasks.org"
+	"~/Reuniones/clinica/reuniones.org"))
 
 (setq org-todo-keywords
     '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
@@ -340,6 +341,9 @@
   :config
   (lsp-enable-which-key-integration t))
 
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode))
+
 ;; Typescript LSP - Mode
  (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -360,8 +364,18 @@
 
 (use-package company-box
   :hook (company-mode . company-box-mode))
+  ;; :config
+  ;; (setq lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs
+  :after lsp)
 
 ;; vue LSP - Mode
 ;; (use-package vue-mode
 ;;  :mode "\\.vue\\'"
 ;;  :hook (vue-mode . lsp-deferred))
+
+(use-package lsp-ivy)
+
+(use-package evil-nerd-commenter
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))

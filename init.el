@@ -181,7 +181,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-project-search-path '("~/proyectosFiverr/"))
+  (setq projectile-project-search-path '("~/proyectos/"))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-completion-system 'ivy))
 
@@ -328,8 +328,8 @@
 
 
 (defun efs/lsp-mode-setup ()
-  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-  (lsp-headerline-breadcrumb-mode))
+ (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+ (lsp-headerline-breadcrumb-mode))
 
 ;; LSP MODE !
 (use-package lsp-mode
@@ -347,7 +347,35 @@
   :config
   (setq typescript-indent-level 2))
 
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+         ("<tab>" . company-complete-selection))
+        (:map lsp-mode-map
+         ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
 ;; vue LSP - Mode
 ;; (use-package vue-mode
 ;;  :mode "\\.vue\\'"
 ;;  :hook (vue-mode . lsp-deferred))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (company-box flx-ido which-key visual-fill-column use-package typescript-mode ripgrep rainbow-delimiters org-bullets lsp-mode ivy-rich hydra helpful general evil-magit evil-collection doom-themes doom-modeline counsel-projectile company command-log-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

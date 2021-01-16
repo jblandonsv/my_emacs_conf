@@ -358,6 +358,18 @@
   :hook (python-mode . lsp-deferred))
   ;; :custom
   ;; (python-shell-interpreter "python")) ;; en mi pc el comando "python" ejecuta python 3.8.5
+(use-package emmet-mode
+  :after lsp
+  :config
+  (emmet-mode 1))
+
+(use-package mhtml-mode
+  :ensure t
+  :hook
+  (mhtml-mode . lsp-deferred)
+  (emmet-mode . lsp-deferred))
+
+(emmet-mode 1)
 
 (use-package company
   :after lsp-mode
@@ -395,3 +407,38 @@
   :init (setenv "WORKON_HOME" "~/anaconda3/envs/")
   :custom
   (pyvenv-mode 1))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+(defun electric-pair ()
+      "If at end of line, insert character pair without surrounding spaces.
+    Otherwise, just insert the typed character."
+      (interactive)
+      (if (eolp) (let (parens-require-spaces) (insert-pair)) (self-insert-command 1)))
+
+(add-hook 'python-mode-hook
+              (lambda ()
+                (define-key python-mode-map "\"" 'electric-pair)
+                (define-key python-mode-map "\'" 'electric-pair)
+                (define-key python-mode-map "(" 'electric-pair)
+                (define-key python-mode-map "[" 'electric-pair)
+                (define-key python-mode-map "{" 'electric-pair)))
+
+(add-hook 'mhtml-mode-hook
+              (lambda ()
+                (define-key mhtml-mode-map "\"" 'electric-pair)
+                (define-key mhtml-mode-map "\'" 'electric-pair)
+                (define-key mhtml-mode-map "(" 'electric-pair)
+                (define-key mhtml-mode-map "[" 'electric-pair)
+                (define-key mhtml-mode-map "{" 'electric-pair)))
+(add-hook 'html-mode-hook
+              (lambda ()
+                (define-key html-mode-map "\"" 'electric-pair)
+                (define-key html-mode-map "\'" 'electric-pair)
+                (define-key html-mode-map "(" 'electric-pair)
+                (define-key html-mode-map "[" 'electric-pair)
+                (define-key html-mode-map "{" 'electric-pair)))

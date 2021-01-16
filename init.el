@@ -351,6 +351,14 @@
   :config
   (setq typescript-indent-level 2))
 
+
+;; Python LSP - Mode
+(use-package python-mode
+  :ensure t
+  :hook (python-mode . lsp-deferred))
+  ;; :custom
+  ;; (python-shell-interpreter "python")) ;; en mi pc el comando "python" ejecuta python 3.8.5
+
 (use-package company
   :after lsp-mode
   :hook (lsp-mode . company-mode)
@@ -379,3 +387,11 @@
 
 (use-package evil-nerd-commenter
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+
+(use-package anaconda-mode
+  :hook (python-mode-hook . anaconda-mode))
+
+(use-package pyvenv
+  :init (setenv "WORKON_HOME" "~/anaconda3/envs/")
+  :custom
+  (pyvenv-mode 1))
